@@ -1,678 +1,412 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Name | Portfolio</title>
-  <meta name="description" content="Portfolio of Your Name — software engineer." />
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Photographer / Director — Portfolio</title>
+  <meta name="description" content="Photo & Video portfolio." />
   <style>
-    :root {
-      --bg: #0b0b0c;
-      --panel: rgba(255, 255, 255, 0.06);
-      --panel-2: rgba(255, 255, 255, 0.09);
-      --text: rgba(255, 255, 255, 0.92);
-      --muted: rgba(255, 255, 255, 0.65);
-      --line: rgba(255, 255, 255, 0.14);
-      --accent: #ff6a00; /* <- orange accent */
-      --shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
-      --radius: 18px;
-      --max: 1100px;
+    :root{
+      --bg:#0b0b0c;
+      --panel:rgba(255,255,255,.06);
+      --line:rgba(255,255,255,.14);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.65);
+      --accent:#ff6a00;
+      --r:18px;
+      --shadow:0 18px 60px rgba(0,0,0,.55);
+      --max:1200px;
     }
-
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: radial-gradient(1200px 700px at 20% -10%, rgba(255, 106, 0, 0.20), transparent 55%),
-                  radial-gradient(900px 600px at 90% 10%, rgba(255, 255, 255, 0.08), transparent 55%),
-                  var(--bg);
-      color: var(--text);
-      line-height: 1.55;
-      letter-spacing: 0.2px;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(900px 500px at 10% 10%, rgba(255,106,0,.10), transparent 60%),
+        radial-gradient(700px 400px at 80% 30%, rgba(255,255,255,.06), transparent 60%),
+        var(--bg);
+      color:var(--text);
     }
-
-    a { color: inherit; text-decoration: none; }
-    a:hover { opacity: 0.92; }
-
-    .wrap {
-      width: min(var(--max), calc(100% - 40px));
-      margin: 0 auto;
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:22px}
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(12px);
+      background: rgba(11,11,12,.65);
+      border-bottom:1px solid var(--line);
     }
-
-    /* Top glow line */
-    .topline {
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      opacity: 0.9;
+    .top{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:16px 22px;
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
     }
-
-    /* NAV */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(14px);
-      background: rgba(11, 11, 12, 0.6);
-      border-bottom: 1px solid var(--line);
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.4px}
+    .dot{width:10px;height:10px;border-radius:999px;background:var(--accent); box-shadow:0 0 0 4px rgba(255,106,0,.15)}
+    .nav{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .chip{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      padding:9px 12px;
+      border-radius:999px;
+      font-size:13px;
+      cursor:pointer;
+      user-select:none;
     }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 14px 0;
+    .chip.active{
+      border-color:rgba(255,106,0,.45);
+      background:linear-gradient(180deg, rgba(255,106,0,.18), rgba(255,106,0,.06));
     }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
+    .hero{
+      margin-top:18px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:18px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
     }
-
-    .dot {
-      width: 10px; height: 10px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 6px rgba(255, 106, 0, 0.15);
+    h1{margin:0; font-size:28px; line-height:1.1}
+    .sub{margin-top:10px; color:var(--muted); line-height:1.6}
+    .cta{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+    .btn{
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:14px;
     }
-
-    .navlinks {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+    .btn.primary{
+      border-color:rgba(255,106,0,.45);
+      background:linear-gradient(180deg, rgba(255,106,0,.18), rgba(255,106,0,.06));
     }
-
-    .navlinks a {
-      font-size: 13px;
-      color: var(--muted);
-      padding: 8px 10px;
-      border-radius: 999px;
-      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    .facts{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      border-radius:20px;
+      padding:14px;
     }
+    .facts b{display:block; margin-bottom:8px}
+    .facts ul{margin:0; padding-left:18px; color:var(--muted); line-height:1.7}
 
-    .navlinks a:hover {
-      background: rgba(255, 255, 255, 0.07);
-      color: var(--text);
-      transform: translateY(-1px);
-    }
-
-    .cta {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text);
-      font-size: 13px;
-      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      border-color: rgba(255, 255, 255, 0.22);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .btn-accent {
-      border-color: rgba(255, 106, 0, 0.55);
-      background: rgba(255, 106, 0, 0.16);
-    }
-    .btn-accent:hover {
-      background: rgba(255, 106, 0, 0.22);
-      border-color: rgba(255, 106, 0, 0.75);
-    }
-
-    /* HERO */
-    .hero {
-      padding: 72px 0 30px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.35fr 0.65fr;
-      gap: 24px;
-      align-items: start;
-    }
-
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-main {
-      padding: 26px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-main::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      background: radial-gradient(700px 350px at 20% 0%, rgba(255, 106, 0, 0.18), transparent 60%),
-                  radial-gradient(700px 350px at 90% 10%, rgba(255, 255, 255, 0.10), transparent 60%);
-      pointer-events: none;
-    }
-
-    .hero-main > * { position: relative; }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 106, 0, 0.45);
-      background: rgba(255, 106, 0, 0.10);
-      font-size: 13px;
-      color: var(--text);
-      width: fit-content;
-      margin-bottom: 16px;
-    }
-
-    .pulse {
-      width: 8px; height: 8px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 0 rgba(255, 106, 0, 0.45);
-      animation: pulse 1.8s infinite;
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(255, 106, 0, 0.45); }
-      70% { box-shadow: 0 0 0 10px rgba(255, 106, 0, 0.0); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 106, 0, 0.0); }
-    }
-
-    h1 {
-      margin: 0 0 10px;
-      font-size: clamp(34px, 4.5vw, 56px);
-      line-height: 1.05;
-      letter-spacing: -0.8px;
-    }
-
-    .subtitle {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 16px;
-      max-width: 64ch;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-
-    .mini {
-      padding: 22px;
-    }
-
-    .mini h3 {
-      margin: 0 0 10px;
-      font-size: 14px;
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .mini .stat {
-      display: grid;
-      gap: 10px;
-    }
-
-    .stat-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.04);
-    }
-
-    .stat-row b { font-size: 14px; }
-    .stat-row span { color: var(--muted); font-size: 13px; }
-
-    /* SECTIONS */
-    section {
-      padding: 38px 0;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .section-title h2 {
-      margin: 0;
-      font-size: 20px;
-      letter-spacing: 0.2px;
-    }
-
-    .section-title p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    /* PROJECTS */
-    .grid {
-      display: grid;
-      gap: 16px;
+    .grid{
+      margin-top:16px;
+      display:grid;
       grid-template-columns: repeat(12, 1fr);
+      gap:12px;
+    }
+    .card{
+      grid-column: span 4;
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      cursor:pointer;
+      position:relative;
+      min-height:260px;
+    }
+    .card.wide{grid-column: span 8}
+    .thumb{
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      filter:saturate(1.05) contrast(1.05);
+      transform:scale(1.01);
+      transition:transform .35s ease;
+    }
+    .card:hover .thumb{transform:scale(1.06)}
+    .label{
+      position:absolute;
+      left:12px; bottom:12px;
+      right:12px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:16px;
+      background:rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(10px);
+    }
+    .label .title{font-weight:700}
+    .label .meta{color:rgba(255,255,255,.7); font-size:12px}
+
+    footer{
+      margin:22px 0 10px;
+      color:var(--muted);
+      font-size:12px;
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
     }
 
-    .project {
-      grid-column: span 6;
-      padding: 18px;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    /* Modal */
+    .modal{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.72);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:50;
+    }
+    .modal.open{display:flex}
+    .modalBox{
+      width:min(1000px, 100%);
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.16);
+      background:#0b0b0c;
+      box-shadow:var(--shadow);
+    }
+    .modalTop{
+      display:flex; justify-content:space-between; align-items:center;
+      padding:12px 14px;
+      border-bottom:1px solid rgba(255,255,255,.12);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .close{
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      border-radius:12px;
+      padding:8px 10px;
+      cursor:pointer;
+    }
+    .modalBody{background:#000}
+    .modalBody img, .modalBody video, .modalBody iframe{
+      width:100%;
+      display:block;
+      aspect-ratio: 16/9;
+      background:#000;
+    }
+    .modalDesc{
+      padding:14px;
+      color:var(--muted);
+      line-height:1.6;
+      background:rgba(255,255,255,.03);
+      border-top:1px solid rgba(255,255,255,.12);
     }
 
-    .project:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255, 255, 255, 0.22);
-      background: rgba(255, 255, 255, 0.06);
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr}
+      .card{grid-column: span 6}
+      .card.wide{grid-column: span 12}
     }
-
-    .project::after {
-      content: "";
-      position: absolute;
-      inset: -1px;
-      background: radial-gradient(450px 220px at 20% 0%, rgba(255, 106, 0, 0.16), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      pointer-events: none;
-    }
-    .project:hover::after { opacity: 1; }
-
-    .project > * { position: relative; }
-
-    .project h3 {
-      margin: 0 0 8px;
-      font-size: 16px;
-    }
-
-    .project p {
-      margin: 0 0 14px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .chips {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .chip {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.80);
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.04);
-      padding: 6px 10px;
-      border-radius: 999px;
-    }
-
-    .project-links {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .link {
-      font-size: 13px;
-      color: var(--text);
-      padding: 8px 10px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.04);
-      transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .link:hover {
-      transform: translateY(-1px);
-      border-color: rgba(255, 106, 0, 0.55);
-    }
-
-    /* SKILLS */
-    .skills {
-      padding: 18px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .skill {
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.04);
-      padding: 10px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.85);
-    }
-    .skill strong {
-      color: white;
-      font-weight: 700;
-      margin-right: 6px;
-    }
-
-    /* TIMELINE */
-    .timeline {
-      padding: 18px;
-    }
-
-    .titem {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 14px;
-      padding: 14px 0;
-      border-top: 1px solid var(--line);
-    }
-    .titem:first-child { border-top: none; padding-top: 0; }
-
-    .twhen {
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
-    }
-
-    .twhat h4 {
-      margin: 0 0 6px;
-      font-size: 15px;
-    }
-
-    .twhat p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    /* CONTACT */
-    .contact {
-      padding: 22px;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .contact h3 {
-      margin: 0 0 10px;
-      font-size: 18px;
-    }
-
-    .contact p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .contact-box {
-      display: grid;
-      gap: 10px;
-      justify-items: start;
-    }
-
-    /* FOOTER */
-    footer {
-      padding: 34px 0 50px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .footerline {
-      border-top: 1px solid var(--line);
-      padding-top: 18px;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 860px) {
-      .hero-grid { grid-template-columns: 1fr; }
-      .project { grid-column: span 12; }
-      .titem { grid-template-columns: 1fr; }
-      .contact { grid-template-columns: 1fr; }
-      .nav-inner { gap: 12px; }
-      .cta { display: none; } /* keep nav clean on small screens */
+    @media (max-width: 560px){
+      .card{grid-column: span 12}
     }
   </style>
 </head>
-
 <body>
-  <div class="topline"></div>
 
-  <div class="nav">
-    <div class="wrap nav-inner">
-      <div class="brand">
-        <span class="dot"></span>
-        <span>Your Name</span>
-      </div>
-
-      <div class="navlinks">
-        <a href="#projects">Projects</a>
-        <a href="#skills">Skills</a>
-        <a href="#experience">Experience</a>
-        <a href="#contact">Contact</a>
-      </div>
-
-      <div class="cta">
-        <a class="btn" href="https://github.com/yourusername" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="btn btn-accent" href="#contact">Let’s talk</a>
-      </div>
+<header>
+  <div class="top">
+    <div class="brand"><span class="dot"></span> <span id="name">YOUR BRAND</span></div>
+    <div class="nav" id="filters">
+      <span class="chip active" data-filter="all">All</span>
+      <span class="chip" data-filter="photo">Photo</span>
+      <span class="chip" data-filter="video">Video</span>
     </div>
   </div>
+</header>
 
-  <main class="wrap">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero-grid">
-        <div class="card hero-main">
-          <div class="badge">
-            <span class="pulse"></span>
-            <span>Open to opportunities</span>
+<div class="wrap">
+  <section class="hero">
+    <div>
+      <h1 id="headline">Photographer & Video Creator</h1>
+      <div class="sub" id="bio">
+        Modern portfolio for productions: photo, video, BTS, campaigns and social content.
+        Add a short line about style, location, and what productions you want to work on.
+      </div>
+      <div class="cta">
+        <a class="btn primary" id="btnContact" href="mailto:you@email.com">✉️ Contact</a>
+        <a class="btn" id="btnInsta" href="#" target="_blank" rel="noreferrer">Instagram</a>
+        <a class="btn" id="btnVimeo" href="#" target="_blank" rel="noreferrer">Vimeo / YouTube</a>
+      </div>
+    </div>
+    <div class="facts">
+      <b>Quick info</b>
+      <ul>
+        <li>Based in: Tel Aviv (edit)</li>
+        <li>Available for: productions / commercials / fashion / events</li>
+        <li>Gear: (optional)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="grid" id="grid">
+    <!-- Example items (replace with your content) -->
+  </section>
+
+  <footer>
+    <span>© <span id="y"></span> <span id="brandFooter">YOUR BRAND</span></span>
+    <span>Dark base • Modern grid • Photo/Video</span>
+  </footer>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modalBox" role="dialog" aria-modal="true">
+    <div class="modalTop">
+      <div id="modalTitle">Title</div>
+      <button class="close" id="closeBtn">Close</button>
+    </div>
+    <div class="modalBody" id="modalBody"></div>
+    <div class="modalDesc" id="modalDesc"></div>
+  </div>
+</div>
+
+<script>
+  // ====== EDIT HERE (content) ======
+  const BRAND = "AERRA STYLE";
+  const HEADLINE = "Name Surname — Photographer / Director";
+  const BIO = "Short, punchy line about your vibe + the productions you want (fashion, commercials, music, events).";
+
+  const LINKS = {
+    email: "mailto:you@email.com",
+    instagram: "https://instagram.com/",
+    video: "https://vimeo.com/" // or YouTube channel
+  };
+
+  // Items:
+  // type: "photo" | "video"
+  // For video:
+  //   - src can be a direct mp4, OR use youtubeId / vimeoId
+  const WORKS = [
+    {
+      type: "video",
+      title: "Campaign — Short Film",
+      meta: "Video • 2026",
+      thumb: "https://images.unsplash.com/photo-1526481280695-3c687fd643ed?auto=format&fit=crop&w=1200&q=70",
+      youtubeId: "dQw4w9WgXcQ",
+      desc: "1–2 lines: role, client, what you did. (Director / DP / Edit / Color)"
+    },
+    {
+      type: "photo",
+      title: "Editorial — Portraits",
+      meta: "Photo • Studio",
+      thumb: "https://images.unsplash.com/photo-1520975958225-36a6613dcd3b?auto=format&fit=crop&w=1200&q=70",
+      full: "https://images.unsplash.com/photo-1520975958225-36a6613dcd3b?auto=format&fit=crop&w=1800&q=70",
+      desc: "Lighting + styling notes. Keep it short."
+    },
+    {
+      type: "photo",
+      title: "Fashion — Lookbook",
+      meta: "Photo • 2025",
+      thumb: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=1200&q=70",
+      full: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=1800&q=70",
+      desc: "Team credits / styling / location (optional)."
+    },
+    {
+      type: "video",
+      title: "BTS — Production Day",
+      meta: "Video • BTS",
+      thumb: "https://images.unsplash.com/photo-1520975682038-27de6b07ce0b?auto=format&fit=crop&w=1200&q=70",
+      vimeoId: "76979871",
+      desc: "BTS cut for socials. Shot + edit."
+    }
+  ];
+  // ================================
+
+  document.getElementById("y").textContent = new Date().getFullYear();
+  document.getElementById("name").textContent = BRAND;
+  document.getElementById("brandFooter").textContent = BRAND;
+  document.getElementById("headline").textContent = HEADLINE;
+  document.getElementById("bio").textContent = BIO;
+
+  document.getElementById("btnContact").href = LINKS.email;
+  document.getElementById("btnInsta").href = LINKS.instagram;
+  document.getElementById("btnVimeo").href = LINKS.video;
+
+  const grid = document.getElementById("grid");
+
+  function cardHTML(item, wide=false){
+    const cls = `card ${wide ? "wide" : ""}`.trim();
+    return `
+      <article class="${cls}" data-type="${item.type}" data-title="${escapeHtml(item.title)}">
+        <img class="thumb" src="${item.thumb}" alt="${escapeHtml(item.title)}" loading="lazy"/>
+        <div class="label">
+          <div>
+            <div class="title">${escapeHtml(item.title)}</div>
+            <div class="meta">${escapeHtml(item.meta || "")}</div>
           </div>
-
-          <h1>Building reliable, clean software.</h1>
-          <p class="subtitle">
-            I’m <b>Your Name</b>, a software engineer focused on backend, automation, and cloud infrastructure.
-            I like turning messy problems into simple systems.
-          </p>
-
-          <div class="hero-actions">
-            <a class="btn btn-accent" href="#projects">View projects</a>
-            <a class="btn" href="#contact">Contact me</a>
-            <a class="btn" href="https://www.linkedin.com/in/yourusername" target="_blank" rel="noreferrer">LinkedIn</a>
-          </div>
+          <div class="meta">${item.type.toUpperCase()}</div>
         </div>
+      </article>
+    `;
+  }
 
-        <div class="card mini">
-          <h3>Quick Info</h3>
-          <div class="stat">
-            <div class="stat-row"><b>Location</b><span>Your City</span></div>
-            <div class="stat-row"><b>Focus</b><span>Backend • Cloud • Automation</span></div>
-            <div class="stat-row"><b>Stack</b><span>Python • Linux • AWS</span></div>
-            <div class="stat-row"><b>Email</b><span>your@email.com</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
+  // Render (make first one wide)
+  grid.innerHTML = WORKS.map((w, i) => cardHTML(w, i===0)).join("");
 
-    <!-- PROJECTS -->
-    <section id="projects">
-      <div class="section-title">
-        <h2>Projects</h2>
-        <p>Selected work (replace the placeholders).</p>
-      </div>
+  // Filtering
+  const chips = [...document.querySelectorAll(".chip")];
+  chips.forEach(chip => chip.addEventListener("click", () => {
+    chips.forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
+    const filter = chip.dataset.filter;
+    [...document.querySelectorAll(".card")].forEach(el => {
+      const t = el.dataset.type;
+      el.style.display = (filter === "all" || t === filter) ? "" : "none";
+    });
+  }));
 
-      <div class="grid">
-        <article class="card project">
-          <h3>Project One</h3>
-          <p>One sentence about what it does and why it matters.</p>
-          <div class="chips">
-            <span class="chip">Python</span>
-            <span class="chip">Docker</span>
-            <span class="chip">CI/CD</span>
-          </div>
-          <div class="project-links">
-            <a class="link" href="https://github.com/yourusername/project-one" target="_blank" rel="noreferrer">Repo</a>
-            <a class="link" href="https://your-demo-link.com" target="_blank" rel="noreferrer">Live demo</a>
-          </div>
-        </article>
+  // Modal open
+  const modal = document.getElementById("modal");
+  const modalBody = document.getElementById("modalBody");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalDesc = document.getElementById("modalDesc");
 
-        <article class="card project">
-          <h3>Project Two</h3>
-          <p>One sentence describing the problem you solved.</p>
-          <div class="chips">
-            <span class="chip">React</span>
-            <span class="chip">Node</span>
-            <span class="chip">MongoDB</span>
-          </div>
-          <div class="project-links">
-            <a class="link" href="https://github.com/yourusername/project-two" target="_blank" rel="noreferrer">Repo</a>
-            <a class="link" href="https://your-demo-link.com" target="_blank" rel="noreferrer">Live demo</a>
-          </div>
-        </article>
+  grid.addEventListener("click", (e) => {
+    const card = e.target.closest(".card");
+    if(!card) return;
+    const idx = [...document.querySelectorAll(".card")].indexOf(card);
+    const item = WORKS[idx];
 
-        <article class="card project">
-          <h3>Project Three</h3>
-          <p>Short description + a measurable outcome (faster, cheaper, fewer bugs, etc.).</p>
-          <div class="chips">
-            <span class="chip">Linux</span>
-            <span class="chip">Networking</span>
-            <span class="chip">Security</span>
-          </div>
-          <div class="project-links">
-            <a class="link" href="https://github.com/yourusername/project-three" target="_blank" rel="noreferrer">Repo</a>
-          </div>
-        </article>
+    modalTitle.textContent = item.title || "";
+    modalDesc.textContent = item.desc || "";
 
-        <article class="card project">
-          <h3>Project Four</h3>
-          <p>Short description with what you personally built.</p>
-          <div class="chips">
-            <span class="chip">Automation</span>
-            <span class="chip">Testing</span>
-            <span class="chip">Observability</span>
-          </div>
-          <div class="project-links">
-            <a class="link" href="https://github.com/yourusername/project-four" target="_blank" rel="noreferrer">Repo</a>
-          </div>
-        </article>
-      </div>
-    </section>
+    // build content
+    if(item.type === "photo"){
+      modalBody.innerHTML = `<img src="${item.full || item.thumb}" alt="${escapeHtml(item.title)}" />`;
+    } else {
+      if(item.youtubeId){
+        modalBody.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${item.youtubeId}" title="Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      } else if(item.vimeoId){
+        modalBody.innerHTML = `<iframe src="https://player.vimeo.com/video/${item.vimeoId}" title="Vimeo video player" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+      } else if(item.src){
+        modalBody.innerHTML = `<video src="${item.src}" controls playsinline></video>`;
+      } else {
+        modalBody.innerHTML = `<div style="padding:18px;color:rgba(255,255,255,.7)">No video source set</div>`;
+      }
+    }
 
-    <!-- SKILLS -->
-    <section id="skills">
-      <div class="section-title">
-        <h2>Skills</h2>
-        <p>Keep it short and real.</p>
-      </div>
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+  });
 
-      <div class="card skills">
-        <span class="skill"><strong>Backend:</strong> Python, Node.js</span>
-        <span class="skill"><strong>Cloud:</strong> AWS, Terraform</span>
-        <span class="skill"><strong>DevOps:</strong> Docker, CI/CD</span>
-        <span class="skill"><strong>OS:</strong> Linux, Bash</span>
-        <span class="skill"><strong>DB:</strong> PostgreSQL, MongoDB</span>
-        <span class="skill"><strong>Other:</strong> Git, Testing</span>
-      </div>
-    </section>
+  // Modal close
+  function closeModal(){
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    modalBody.innerHTML = "";
+  }
+  document.getElementById("closeBtn").addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
+  window.addEventListener("keydown", (e) => { if(e.key === "Escape") closeModal(); });
 
-    <!-- EXPERIENCE -->
-    <section id="experience">
-      <div class="section-title">
-        <h2>Experience</h2>
-        <p>Simple timeline format.</p>
-      </div>
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, s => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[s]));
+  }
+</script>
 
-      <div class="card timeline">
-        <div class="titem">
-          <div class="twhen">2025 — Present</div>
-          <div class="twhat">
-            <h4>Software Engineer — Company</h4>
-            <p>1–2 lines: what you own, what you improved, impact numbers if possible.</p>
-          </div>
-        </div>
-
-        <div class="titem">
-          <div class="twhen">2023 — 2025</div>
-          <div class="twhat">
-            <h4>Role — Company</h4>
-            <p>Short description of responsibilities and achievements.</p>
-          </div>
-        </div>
-
-        <div class="titem">
-          <div class="twhen">Education</div>
-          <div class="twhat">
-            <h4>Degree / Bootcamp / Self-learning</h4>
-            <p>Anything relevant. Keep it compact.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="section-title">
-        <h2>Contact</h2>
-        <p>Best way to reach you.</p>
-      </div>
-
-      <div class="card contact">
-        <div>
-          <h3>Want to build something together?</h3>
-          <p>
-            Email me or send a message on LinkedIn.
-            I usually reply within 24–48 hours.
-          </p>
-        </div>
-
-        <div class="contact-box">
-          <a class="btn btn-accent" href="mailto:your@email.com">Email me</a>
-          <a class="btn" href="https://github.com/yourusername" target="_blank" rel="noreferrer">GitHub</a>
-          <a class="btn" href="https://www.linkedin.com/in/yourusername" target="_blank" rel="noreferrer">LinkedIn</a>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <div class="footerline">
-        <span>© 2026 Your Name</span>
-        <span style="color: rgba(255,255,255,0.55);">
-          Built with HTML + CSS • Accent <span style="color: var(--accent);">●</span>
-        </span>
-      </div>
-    </footer>
-  </main>
 </body>
 </html>
