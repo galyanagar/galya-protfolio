@@ -3,410 +3,968 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Photographer / Director — Portfolio</title>
-  <meta name="description" content="Photo & Video portfolio." />
+  <title>NOIR STUDIO — Photo & Motion</title>
+  <meta name="description" content="Modern black portfolio for photo & video production." />
+
   <style>
     :root{
-      --bg:#0b0b0c;
-      --panel:rgba(255,255,255,.06);
-      --line:rgba(255,255,255,.14);
+      --bg:#070709;
+      --bg2:#0b0b10;
       --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.65);
-      --accent:#ff6a00;
-      --r:18px;
-      --shadow:0 18px 60px rgba(0,0,0,.55);
+      --muted:rgba(255,255,255,.62);
+      --line:rgba(255,255,255,.12);
+      --glass:rgba(255,255,255,.06);
+      --glass2:rgba(255,255,255,.10);
+      --shadow: 0 30px 90px rgba(0,0,0,.60);
+      --r:22px;
+      --r2:28px;
       --max:1200px;
+
+      --accent:#ff6a00;         /* orange pop */
+      --accent2:#b7ff4a;        /* lime pop */
+      --accent3:#7c4dff;        /* violet pop */
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:
-        radial-gradient(900px 500px at 10% 10%, rgba(255,106,0,.10), transparent 60%),
-        radial-gradient(700px 400px at 80% 30%, rgba(255,255,255,.06), transparent 60%),
-        var(--bg);
       color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", sans-serif;
+      background:
+        radial-gradient(1000px 600px at 12% 6%, rgba(255,106,0,.14), transparent 60%),
+        radial-gradient(900px 560px at 78% 18%, rgba(124,77,255,.12), transparent 60%),
+        radial-gradient(900px 600px at 55% 90%, rgba(183,255,74,.08), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      overflow-x:hidden;
     }
-    a{color:inherit}
+
+    a{color:inherit; text-decoration:none}
+    button{font-family:inherit}
+
+    /* Subtle film grain */
+    .grain{
+      pointer-events:none;
+      position:fixed; inset:-40%;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+      mix-blend-mode:overlay;
+      opacity:.20;
+      transform:translateZ(0);
+      animation: drift 14s linear infinite;
+    }
+    @keyframes drift{
+      0%{transform:translate3d(-2%, -2%, 0)}
+      50%{transform:translate3d(2%, 1%, 0)}
+      100%{transform:translate3d(-2%, -2%, 0)}
+    }
+
+    /* Layout */
     .wrap{max-width:var(--max); margin:0 auto; padding:22px}
-    header{
-      position:sticky; top:0; z-index:10;
-      backdrop-filter: blur(12px);
-      background: rgba(11,11,12,.65);
-      border-bottom:1px solid var(--line);
+    .section{margin:22px 0}
+
+    /* Top nav */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(7,7,9,.78), rgba(7,7,9,.45));
+      border-bottom:1px solid rgba(255,255,255,.10);
     }
-    .top{
+    .nav-inner{
       max-width:var(--max);
       margin:0 auto;
-      padding:16px 22px;
-      display:flex; gap:14px; align-items:center; justify-content:space-between;
+      padding:14px 22px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
     }
-    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.4px}
-    .dot{width:10px;height:10px;border-radius:999px;background:var(--accent); box-shadow:0 0 0 4px rgba(255,106,0,.15)}
-    .nav{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
-    .chip{
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.6px;
+      text-transform:uppercase;
+    }
+    .logo{
+      width:34px;height:34px;border-radius:14px;
+      background:
+        radial-gradient(12px 12px at 30% 30%, rgba(255,255,255,.35), transparent 60%),
+        linear-gradient(135deg, rgba(255,106,0,.85), rgba(124,77,255,.75));
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    .nav-links{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+
+    .pill{
       border:1px solid var(--line);
       background:rgba(255,255,255,.04);
       padding:9px 12px;
       border-radius:999px;
       font-size:13px;
+      color:rgba(255,255,255,.78);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      display:inline-flex; align-items:center; gap:8px;
       cursor:pointer;
       user-select:none;
     }
-    .chip.active{
-      border-color:rgba(255,106,0,.45);
+    .pill:hover{transform:translateY(-1px); background:rgba(255,255,255,.06)}
+    .pill.primary{
+      border-color:rgba(255,106,0,.42);
       background:linear-gradient(180deg, rgba(255,106,0,.18), rgba(255,106,0,.06));
+      color:rgba(255,255,255,.92);
     }
+    .pill.ghost{background:transparent}
+    .dot{
+      width:8px;height:8px;border-radius:99px;background:var(--accent);
+      box-shadow:0 0 0 4px rgba(255,106,0,.14);
+    }
+
+    /* Hero */
     .hero{
-      margin-top:18px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.04);
-      border-radius:24px;
+      position:relative;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      border-radius:var(--r2);
+      overflow:hidden;
       box-shadow:var(--shadow);
-      padding:18px;
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:14px;
     }
-    h1{margin:0; font-size:28px; line-height:1.1}
-    .sub{margin-top:10px; color:var(--muted); line-height:1.6}
-    .cta{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
-    .btn{
-      text-decoration:none;
-      display:inline-flex; align-items:center; gap:8px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.04);
-      padding:10px 14px;
-      border-radius:999px;
+    .hero::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 500px at 20% 20%, rgba(255,106,0,.16), transparent 60%),
+        radial-gradient(700px 420px at 80% 30%, rgba(124,77,255,.16), transparent 60%),
+        radial-gradient(900px 520px at 50% 100%, rgba(183,255,74,.10), transparent 65%);
+      opacity:.85;
+      pointer-events:none;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+      padding:18px;
+      position:relative;
+    }
+
+    .hero-left{
+      border:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius:24px;
+      padding:18px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .kicker{
+      display:flex; align-items:center; gap:10px;
+      color:rgba(255,255,255,.72);
+      font-size:12px;
+      letter-spacing:.45px;
+      text-transform:uppercase;
+    }
+    .title{
+      margin:12px 0 0;
+      font-size:44px;
+      line-height:1.02;
+      letter-spacing:-.02em;
+    }
+    .title .stroke{
+      color:transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,.55);
+      text-stroke: 1px rgba(255,255,255,.55);
+      filter: drop-shadow(0 10px 40px rgba(0,0,0,.35));
+    }
+    .desc{
+      margin-top:12px;
+      color:var(--muted);
+      line-height:1.6;
+      max-width:60ch;
       font-size:14px;
     }
-    .btn.primary{
-      border-color:rgba(255,106,0,.45);
-      background:linear-gradient(180deg, rgba(255,106,0,.18), rgba(255,106,0,.06));
-    }
-    .facts{
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
-      border-radius:20px;
-      padding:14px;
-    }
-    .facts b{display:block; margin-bottom:8px}
-    .facts ul{margin:0; padding-left:18px; color:var(--muted); line-height:1.7}
 
-    .grid{
+    .hero-cta{
+      display:flex; gap:10px; flex-wrap:wrap;
       margin-top:16px;
+      align-items:center;
+    }
+
+    .btn{
+      border-radius:999px;
+      padding:10px 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.04);
+      color:rgba(255,255,255,.90);
+      display:inline-flex; align-items:center; gap:9px;
+      font-size:14px;
+      cursor:pointer;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .btn:hover{transform:translateY(-1px); background:rgba(255,255,255,.06)}
+    .btn.primary{
+      border-color:rgba(255,106,0,.46);
+      background:
+        radial-gradient(14px 14px at 20% 30%, rgba(255,255,255,.20), transparent 60%),
+        linear-gradient(180deg, rgba(255,106,0,.20), rgba(255,106,0,.06));
+    }
+    .btn.secondary{
+      border-color:rgba(183,255,74,.36);
+      background:linear-gradient(180deg, rgba(183,255,74,.16), rgba(183,255,74,.05));
+    }
+
+    .statrow{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .stat{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      border-radius:18px;
+      padding:10px 12px;
+      min-width:140px;
+    }
+    .stat b{display:block; font-size:14px}
+    .stat span{color:var(--muted); font-size:12px}
+
+    .hero-right{
       display:grid;
-      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: 1fr auto;
+      gap:14px;
+    }
+
+    .reel{
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:24px;
+      overflow:hidden;
+      position:relative;
+      min-height:360px;
+      background:#000;
+    }
+    .reel iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+      aspect-ratio: 16/9;
+      min-height:360px;
+    }
+    .reel-overlay{
+      position:absolute; inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(600px 260px at 20% 20%, rgba(255,106,0,.18), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.55));
+      mix-blend-mode:screen;
+      opacity:.65;
+    }
+    .reel-badge{
+      position:absolute;
+      left:12px; top:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.40);
+      backdrop-filter: blur(10px);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:rgba(255,255,255,.78);
+      display:inline-flex; gap:8px; align-items:center;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
       gap:12px;
     }
-    .card{
-      grid-column: span 4;
-      border-radius:20px;
+    .mini{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      border-radius:22px;
+      padding:14px;
+      overflow:hidden;
+      position:relative;
+    }
+    .mini::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(260px 160px at 20% 30%, rgba(255,106,0,.15), transparent 60%),
+        radial-gradient(260px 160px at 80% 60%, rgba(124,77,255,.15), transparent 60%);
+      opacity:.65;
+      pointer-events:none;
+    }
+    .mini h3{margin:0; font-size:14px}
+    .mini p{margin:8px 0 0; color:var(--muted); font-size:13px; line-height:1.5}
+
+    /* Section headers */
+    .hrow{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap:12px; flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+    .hrow h2{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    .hrow .hint{
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* Filter bar */
+    .filters{
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center;
+    }
+    .chip{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      border-radius:999px;
+      padding:10px 12px;
+      font-size:13px;
+      color:rgba(255,255,255,.78);
+      cursor:pointer;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      user-select:none;
+    }
+    .chip:hover{transform:translateY(-1px); background:rgba(255,255,255,.05)}
+    .chip.active{
+      border-color:rgba(255,106,0,.44);
+      background:linear-gradient(180deg, rgba(255,106,0,.18), rgba(255,106,0,.06));
+      color:rgba(255,255,255,.92);
+    }
+
+    /* Masonry */
+    .masonry{
+      column-count: 3;
+      column-gap: 12px;
+    }
+    .work{
+      break-inside: avoid;
+      margin:0 0 12px;
+      border-radius:22px;
       overflow:hidden;
       border:1px solid rgba(255,255,255,.12);
       background:rgba(255,255,255,.03);
-      cursor:pointer;
+      box-shadow:0 12px 30px rgba(0,0,0,.25);
       position:relative;
-      min-height:260px;
+      cursor:pointer;
+      transform: translateZ(0);
     }
-    .card.wide{grid-column: span 8}
-    .thumb{
-      width:100%; height:100%;
-      object-fit:cover;
+    .work .media{
+      width:100%;
       display:block;
-      filter:saturate(1.05) contrast(1.05);
-      transform:scale(1.01);
-      transition:transform .35s ease;
+      position:relative;
+      overflow:hidden;
+      background:#000;
     }
-    .card:hover .thumb{transform:scale(1.06)}
-    .label{
+    .work img{
+      width:100%;
+      display:block;
+      object-fit:cover;
+      transform:scale(1.02);
+      transition: transform .45s ease;
+      filter:saturate(1.05) contrast(1.05);
+    }
+    .work:hover img{transform:scale(1.08)}
+    .work::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,.65));
+      opacity:.95;
+      pointer-events:none;
+    }
+    .tag{
+      position:absolute; left:12px; top:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:rgba(255,255,255,.78);
+      display:inline-flex; gap:8px; align-items:center;
+    }
+    .play{
+      width:24px;height:24px;border-radius:999px;
+      display:inline-grid; place-items:center;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+    }
+    .caption{
       position:absolute;
-      left:12px; bottom:12px;
-      right:12px;
+      left:12px; right:12px; bottom:12px;
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
       gap:10px;
-      padding:10px 12px;
-      border-radius:16px;
-      background:rgba(0,0,0,.55);
-      border:1px solid rgba(255,255,255,.18);
+      z-index:2;
+    }
+    .cap-left b{
+      display:block;
+      font-size:14px;
+      letter-spacing:.2px;
+    }
+    .cap-left span{
+      display:block;
+      color:rgba(255,255,255,.72);
+      font-size:12px;
+      margin-top:4px;
+    }
+    .cap-right{
+      display:flex; gap:8px; align-items:center;
+      color:rgba(255,255,255,.75);
+      font-size:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.25);
+      padding:8px 10px;
+      border-radius:999px;
       backdrop-filter: blur(10px);
     }
-    .label .title{font-weight:700}
-    .label .meta{color:rgba(255,255,255,.7); font-size:12px}
 
-    footer{
+    /* Testimonials / clients */
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:12px;
+    }
+    .card{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      border-radius:24px;
+      padding:16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .card::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(260px 160px at 18% 25%, rgba(255,106,0,.14), transparent 60%),
+        radial-gradient(260px 160px at 82% 70%, rgba(183,255,74,.10), transparent 60%);
+      opacity:.55;
+      pointer-events:none;
+    }
+    .card h3{margin:0; font-size:14px}
+    .card p{margin:10px 0 0; color:var(--muted); line-height:1.6; font-size:13px}
+    .who{
+      margin-top:12px;
+      display:flex; align-items:center; gap:10px;
+      color:rgba(255,255,255,.76);
+      font-size:12px;
+    }
+    .avatar{
+      width:32px;height:32px;border-radius:14px;
+      background:
+        radial-gradient(12px 12px at 30% 30%, rgba(255,255,255,.35), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.14);
+    }
+
+    /* Footer */
+    .footer{
       margin:22px 0 10px;
       color:var(--muted);
       font-size:12px;
       display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      opacity:.95;
     }
 
     /* Modal */
     .modal{
       position:fixed; inset:0;
-      background:rgba(0,0,0,.72);
       display:none;
       align-items:center;
       justify-content:center;
       padding:18px;
-      z-index:50;
+      z-index:100;
+      background:rgba(0,0,0,.72);
+      backdrop-filter: blur(10px);
     }
     .modal.open{display:flex}
     .modalBox{
-      width:min(1000px, 100%);
-      border-radius:22px;
+      width:min(1080px, 100%);
+      border-radius:26px;
       overflow:hidden;
-      border:1px solid rgba(255,255,255,.16);
-      background:#0b0b0c;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.88);
       box-shadow:var(--shadow);
     }
     .modalTop{
-      display:flex; justify-content:space-between; align-items:center;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
       padding:12px 14px;
       border-bottom:1px solid rgba(255,255,255,.12);
-      color:var(--muted);
-      font-size:13px;
+      background:rgba(255,255,255,.03);
     }
-    .close{
+    .modalTop .mTitle{
+      display:flex; flex-direction:column;
+      gap:2px;
+    }
+    .modalTop .mTitle b{font-size:14px}
+    .modalTop .mTitle span{font-size:12px; color:var(--muted)}
+    .x{
       border:1px solid rgba(255,255,255,.16);
       background:rgba(255,255,255,.04);
-      color:var(--text);
-      border-radius:12px;
-      padding:8px 10px;
+      color:rgba(255,255,255,.85);
+      border-radius:14px;
+      padding:9px 12px;
       cursor:pointer;
     }
     .modalBody{background:#000}
-    .modalBody img, .modalBody video, .modalBody iframe{
+    .modalBody img, .modalBody iframe, .modalBody video{
       width:100%;
       display:block;
       aspect-ratio: 16/9;
+      border:0;
       background:#000;
     }
     .modalDesc{
       padding:14px;
       color:var(--muted);
-      line-height:1.6;
+      line-height:1.65;
+      font-size:13px;
       background:rgba(255,255,255,.03);
       border-top:1px solid rgba(255,255,255,.12);
     }
 
-    @media (max-width: 980px){
-      .hero{grid-template-columns:1fr}
-      .card{grid-column: span 6}
-      .card.wide{grid-column: span 12}
+    /* Responsive */
+    @media (max-width: 1040px){
+      .hero-grid{grid-template-columns:1fr}
+      .reel iframe{min-height:320px}
+      .masonry{column-count:2}
+      .grid2{grid-template-columns:1fr}
+      .title{font-size:40px}
     }
     @media (max-width: 560px){
-      .card{grid-column: span 12}
+      .wrap{padding:16px}
+      .nav-inner{padding:12px 16px}
+      .hero-grid{padding:14px}
+      .masonry{column-count:1}
+      .title{font-size:34px}
+      .cards{grid-template-columns:1fr}
     }
   </style>
 </head>
+
 <body>
+  <div class="grain"></div>
 
-<header>
-  <div class="top">
-    <div class="brand"><span class="dot"></span> <span id="name">YOUR BRAND</span></div>
-    <div class="nav" id="filters">
-      <span class="chip active" data-filter="all">All</span>
-      <span class="chip" data-filter="photo">Photo</span>
-      <span class="chip" data-filter="video">Video</span>
-    </div>
-  </div>
-</header>
-
-<div class="wrap">
-  <section class="hero">
-    <div>
-      <h1 id="headline">Photographer & Video Creator</h1>
-      <div class="sub" id="bio">
-        Modern portfolio for productions: photo, video, BTS, campaigns and social content.
-        Add a short line about style, location, and what productions you want to work on.
+  <header class="nav">
+    <div class="nav-inner">
+      <div class="brand">
+        <span class="logo"></span>
+        <span>NOIR STUDIO</span>
       </div>
-      <div class="cta">
-        <a class="btn primary" id="btnContact" href="mailto:you@email.com">✉️ Contact</a>
-        <a class="btn" id="btnInsta" href="#" target="_blank" rel="noreferrer">Instagram</a>
-        <a class="btn" id="btnVimeo" href="#" target="_blank" rel="noreferrer">Vimeo / YouTube</a>
-      </div>
+
+      <nav class="nav-links">
+        <a class="pill ghost" href="#work">Work</a>
+        <a class="pill ghost" href="#services">Services</a>
+        <a class="pill ghost" href="#clients">Clients</a>
+        <a class="pill primary" href="#contact"><span class="dot"></span> Book a shoot</a>
+      </nav>
     </div>
-    <div class="facts">
-      <b>Quick info</b>
-      <ul>
-        <li>Based in: Tel Aviv (edit)</li>
-        <li>Available for: productions / commercials / fashion / events</li>
-        <li>Gear: (optional)</li>
-      </ul>
-    </div>
-  </section>
+  </header>
 
-  <section class="grid" id="grid">
-    <!-- Example items (replace with your content) -->
-  </section>
-
-  <footer>
-    <span>© <span id="y"></span> <span id="brandFooter">YOUR BRAND</span></span>
-    <span>Dark base • Modern grid • Photo/Video</span>
-  </footer>
-</div>
-
-<!-- Modal -->
-<div class="modal" id="modal" aria-hidden="true">
-  <div class="modalBox" role="dialog" aria-modal="true">
-    <div class="modalTop">
-      <div id="modalTitle">Title</div>
-      <button class="close" id="closeBtn">Close</button>
-    </div>
-    <div class="modalBody" id="modalBody"></div>
-    <div class="modalDesc" id="modalDesc"></div>
-  </div>
-</div>
-
-<script>
-  // ====== EDIT HERE (content) ======
-  const BRAND = "AERRA STYLE";
-  const HEADLINE = "Name Surname — Photographer / Director";
-  const BIO = "Short, punchy line about your vibe + the productions you want (fashion, commercials, music, events).";
-
-  const LINKS = {
-    email: "mailto:you@email.com",
-    instagram: "https://instagram.com/",
-    video: "https://vimeo.com/" // or YouTube channel
-  };
-
-  // Items:
-  // type: "photo" | "video"
-  // For video:
-  //   - src can be a direct mp4, OR use youtubeId / vimeoId
-  const WORKS = [
-    {
-      type: "video",
-      title: "Campaign — Short Film",
-      meta: "Video • 2026",
-      thumb: "https://images.unsplash.com/photo-1526481280695-3c687fd643ed?auto=format&fit=crop&w=1200&q=70",
-      youtubeId: "dQw4w9WgXcQ",
-      desc: "1–2 lines: role, client, what you did. (Director / DP / Edit / Color)"
-    },
-    {
-      type: "photo",
-      title: "Editorial — Portraits",
-      meta: "Photo • Studio",
-      thumb: "https://images.unsplash.com/photo-1520975958225-36a6613dcd3b?auto=format&fit=crop&w=1200&q=70",
-      full: "https://images.unsplash.com/photo-1520975958225-36a6613dcd3b?auto=format&fit=crop&w=1800&q=70",
-      desc: "Lighting + styling notes. Keep it short."
-    },
-    {
-      type: "photo",
-      title: "Fashion — Lookbook",
-      meta: "Photo • 2025",
-      thumb: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=1200&q=70",
-      full: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=1800&q=70",
-      desc: "Team credits / styling / location (optional)."
-    },
-    {
-      type: "video",
-      title: "BTS — Production Day",
-      meta: "Video • BTS",
-      thumb: "https://images.unsplash.com/photo-1520975682038-27de6b07ce0b?auto=format&fit=crop&w=1200&q=70",
-      vimeoId: "76979871",
-      desc: "BTS cut for socials. Shot + edit."
-    }
-  ];
-  // ================================
-
-  document.getElementById("y").textContent = new Date().getFullYear();
-  document.getElementById("name").textContent = BRAND;
-  document.getElementById("brandFooter").textContent = BRAND;
-  document.getElementById("headline").textContent = HEADLINE;
-  document.getElementById("bio").textContent = BIO;
-
-  document.getElementById("btnContact").href = LINKS.email;
-  document.getElementById("btnInsta").href = LINKS.instagram;
-  document.getElementById("btnVimeo").href = LINKS.video;
-
-  const grid = document.getElementById("grid");
-
-  function cardHTML(item, wide=false){
-    const cls = `card ${wide ? "wide" : ""}`.trim();
-    return `
-      <article class="${cls}" data-type="${item.type}" data-title="${escapeHtml(item.title)}">
-        <img class="thumb" src="${item.thumb}" alt="${escapeHtml(item.title)}" loading="lazy"/>
-        <div class="label">
-          <div>
-            <div class="title">${escapeHtml(item.title)}</div>
-            <div class="meta">${escapeHtml(item.meta || "")}</div>
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="section hero" id="top">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="kicker"><span class="dot"></span> Photo • Video • Production-ready portfolio</div>
+          <h1 class="title">
+            Black. Clean.<br/>
+            <span class="stroke">High-end visuals</span><br/>
+            that sell the story.
+          </h1>
+          <div class="desc">
+            A modern portfolio for a photographer & video creator aiming for productions:
+            campaigns, fashion, events, BTS, social cuts — with a premium noir look.
+            Replace the placeholders with real work and publish on GitHub Pages.
           </div>
-          <div class="meta">${item.type.toUpperCase()}</div>
+
+          <div class="hero-cta">
+            <button class="btn primary" id="openShowreel">▶ Play showreel</button>
+            <a class="btn" href="#work">View work</a>
+            <a class="btn secondary" href="#contact">Get a quote</a>
+          </div>
+
+          <div class="statrow">
+            <div class="stat"><b>48h delivery</b><span>for select edits</span></div>
+            <div class="stat"><b>On-set ready</b><span>lights • audio • crew</span></div>
+            <div class="stat"><b>Social cuts</b><span>Reels / TikTok / ads</span></div>
+          </div>
         </div>
-      </article>
-    `;
-  }
 
-  // Render (make first one wide)
-  grid.innerHTML = WORKS.map((w, i) => cardHTML(w, i===0)).join("");
+        <div class="hero-right">
+          <div class="reel" aria-label="Showreel">
+            <div class="reel-badge"><span class="play">▶</span> Featured showreel</div>
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0"
+              title="Showreel"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+            <div class="reel-overlay"></div>
+          </div>
 
-  // Filtering
-  const chips = [...document.querySelectorAll(".chip")];
-  chips.forEach(chip => chip.addEventListener("click", () => {
-    chips.forEach(c => c.classList.remove("active"));
-    chip.classList.add("active");
-    const filter = chip.dataset.filter;
-    [...document.querySelectorAll(".card")].forEach(el => {
-      const t = el.dataset.type;
-      el.style.display = (filter === "all" || t === filter) ? "" : "none";
-    });
-  }));
+          <div class="cards">
+            <div class="mini">
+              <h3>Signature look</h3>
+              <p>Noir contrast, clean highlights, skin tones that feel cinematic — even for fast social deliverables.</p>
+            </div>
+            <div class="mini">
+              <h3>Production mindset</h3>
+              <p>Shot lists, time boxing, on-set flow, and fast handoff to editing — made for real crews & deadlines.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  // Modal open
-  const modal = document.getElementById("modal");
-  const modalBody = document.getElementById("modalBody");
-  const modalTitle = document.getElementById("modalTitle");
-  const modalDesc = document.getElementById("modalDesc");
+    <!-- WORK -->
+    <section class="section" id="work">
+      <div class="hrow">
+        <div>
+          <h2>Selected work</h2>
+          <div class="hint">Click an item to open the project (photo / video) in a modal.</div>
+        </div>
+        <div class="filters" id="filters">
+          <span class="chip active" data-filter="all">All</span>
+          <span class="chip" data-filter="photo">Photo</span>
+          <span class="chip" data-filter="video">Video</span>
+          <span class="chip" data-filter="campaign">Campaign</span>
+          <span class="chip" data-filter="bts">BTS</span>
+        </div>
+      </div>
 
-  grid.addEventListener("click", (e) => {
-    const card = e.target.closest(".card");
-    if(!card) return;
-    const idx = [...document.querySelectorAll(".card")].indexOf(card);
-    const item = WORKS[idx];
+      <div class="masonry" id="masonry"></div>
+    </section>
 
-    modalTitle.textContent = item.title || "";
-    modalDesc.textContent = item.desc || "";
+    <!-- SERVICES -->
+    <section class="section" id="services">
+      <div class="hrow">
+        <h2>Services</h2>
+        <div class="hint">A clear offer that productions understand.</div>
+      </div>
 
-    // build content
-    if(item.type === "photo"){
-      modalBody.innerHTML = `<img src="${item.full || item.thumb}" alt="${escapeHtml(item.title)}" />`;
-    } else {
-      if(item.youtubeId){
-        modalBody.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${item.youtubeId}" title="Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-      } else if(item.vimeoId){
-        modalBody.innerHTML = `<iframe src="https://player.vimeo.com/video/${item.vimeoId}" title="Vimeo video player" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
-      } else if(item.src){
-        modalBody.innerHTML = `<video src="${item.src}" controls playsinline></video>`;
-      } else {
-        modalBody.innerHTML = `<div style="padding:18px;color:rgba(255,255,255,.7)">No video source set</div>`;
+      <div class="grid2">
+        <div class="card">
+          <h3>Production photography</h3>
+          <p>Portraits, fashion, events, sets, BTS. Shot list aligned with the production’s deliverables.</p>
+          <div class="who"><span class="avatar"></span> Deliverables: web • print • socials</div>
+        </div>
+        <div class="card">
+          <h3>Video & social cuts</h3>
+          <p>Showreels, recap films, reels, TikTok cuts, ads. Editing for retention + clean sound.</p>
+          <div class="who"><span class="avatar"></span> Deliverables: 9:16 • 16:9 • 1:1</div>
+        </div>
+        <div class="card">
+          <h3>Creative direction</h3>
+          <p>Moodboards, references, styling notes, lighting plan, and pacing — consistent visual language.</p>
+          <div class="who"><span class="avatar"></span> Pre-production → on-set → post</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLIENTS / TESTIMONIALS -->
+    <section class="section" id="clients">
+      <div class="hrow">
+        <h2>Clients & words</h2>
+        <div class="hint">Replace with real names/logos later.</div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <h3>“Looks like a Netflix frame.”</h3>
+          <p>Fast turnaround, super clean edit, and the vibe was exactly what we needed for the campaign cut.</p>
+          <div class="who"><span class="avatar"></span> Producer — Studio A (demo)</div>
+        </div>
+        <div class="card">
+          <h3>“On set she was a machine.”</h3>
+          <p>Organized, calm, knows what to capture, and delivers material that actually helps the production.</p>
+          <div class="who"><span class="avatar"></span> Director — Commercial (demo)</div>
+        </div>
+        <div class="card">
+          <h3>“The socials exploded.”</h3>
+          <p>The reels were paced perfectly. Great sound, hooks, and visuals — exactly what brands want.</p>
+          <div class="who"><span class="avatar"></span> Brand Manager (demo)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section hero" id="contact">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="kicker"><span class="dot"></span> Bookings • Productions • Collabs</div>
+          <h2 class="title" style="font-size:34px; margin-top:10px;">
+            Let’s shoot something<br/><span class="stroke">worth stopping for.</span>
+          </h2>
+          <div class="desc">
+            Email, Instagram, or WhatsApp — whatever is easiest.  
+            (Replace placeholders with real details.)
+          </div>
+          <div class="hero-cta">
+            <a class="btn primary" href="mailto:hello@noirstudio.com">✉️ hello@noirstudio.com</a>
+            <a class="btn" href="#" onclick="alert('Put your Instagram link here')">Instagram</a>
+            <a class="btn secondary" href="#" onclick="alert('Put your WhatsApp link here')">WhatsApp</a>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="mini" style="min-height:unset">
+            <h3>Quick booking form (demo)</h3>
+            <p style="margin:10px 0 0; color:var(--muted)">
+              In GitHub Pages there’s no backend by default — but you can connect this to:
+              Formspree / Netlify Forms / Google Forms later.
+            </p>
+
+            <div style="margin-top:12px; display:grid; gap:10px">
+              <div style="display:grid; gap:10px; grid-template-columns:1fr 1fr">
+                <input class="inp" placeholder="Name" />
+                <input class="inp" placeholder="Email" />
+              </div>
+              <input class="inp" placeholder="Project type (campaign / BTS / event / fashion)" />
+              <textarea class="inp" rows="4" placeholder="Tell us what you need: dates, location, deliverables..."></textarea>
+              <button class="btn primary" onclick="alert('Demo only — connect to a form service later')">Send request</button>
+            </div>
+          </div>
+
+          <style>
+            .inp{
+              width:100%;
+              border-radius:16px;
+              border:1px solid rgba(255,255,255,.14);
+              background:rgba(255,255,255,.04);
+              color:rgba(255,255,255,.88);
+              padding:12px 12px;
+              outline:none;
+            }
+            .inp::placeholder{color:rgba(255,255,255,.42)}
+            .inp:focus{border-color:rgba(255,106,0,.42)}
+          </style>
+
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© <span id="y"></span> NOIR STUDIO • Photo & Motion</span>
+      <span>Built for GitHub Pages • Noir base • WOW gallery</span>
+    </footer>
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modalBox" role="dialog" aria-modal="true">
+      <div class="modalTop">
+        <div class="mTitle">
+          <b id="mTitle">Title</b>
+          <span id="mMeta">Meta</span>
+        </div>
+        <button class="x" id="close">Close</button>
+      </div>
+      <div class="modalBody" id="mBody"></div>
+      <div class="modalDesc" id="mDesc"></div>
+    </div>
+  </div>
+
+  <script>
+    // Year
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    // ===== Demo content (replace later) =====
+    const WORKS = [
+      {
+        id:"w1",
+        type:["video","campaign"],
+        title:"NIGHT CAMPAIGN — 30s Cut",
+        meta:"Video • Campaign • Director/DP/Edit (demo)",
+        thumb:"https://images.unsplash.com/photo-1526481280695-3c687fd643ed?auto=format&fit=crop&w=1200&q=70",
+        youtubeId:"aqz-KE-bpKQ",
+        desc:"A cinematic campaign cut with clean pacing and premium grade. Replace with your showreel/campaign video."
+      },
+      {
+        id:"w2",
+        type:["photo","campaign"],
+        title:"FASHION EDITORIAL — Noir Set",
+        meta:"Photo • Campaign • Studio (demo)",
+        thumb:"https://images.unsplash.com/photo-1520975958225-36a6613dcd3b?auto=format&fit=crop&w=1200&q=70",
+        full:"https://images.unsplash.com/photo-1520975958225-36a6613dcd3b?auto=format&fit=crop&w=2200&q=80",
+        desc:"Portrait editorial with high contrast & soft highlights. Replace with a real editorial set."
+      },
+      {
+        id:"w3",
+        type:["photo","bts"],
+        title:"BTS — Production Day",
+        meta:"Photo • BTS • On-set (demo)",
+        thumb:"https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=1200&q=70",
+        full:"https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=2200&q=80",
+        desc:"Behind-the-scenes moments, designed for producers: authentic, sharp, and story-driven."
+      },
+      {
+        id:"w4",
+        type:["video","bts"],
+        title:"BTS RECAP — 45s Reel",
+        meta:"Video • BTS • Social cut (demo)",
+        thumb:"https://images.unsplash.com/photo-1520975682038-27de6b07ce0b?auto=format&fit=crop&w=1200&q=70",
+        youtubeId:"dQw4w9WgXcQ",
+        desc:"A punchy BTS recap built for retention. Replace with your real reel / recap video."
+      },
+      {
+        id:"w5",
+        type:["photo"],
+        title:"PORTRAITS — Studio Light",
+        meta:"Photo • Portraits (demo)",
+        thumb:"https://images.unsplash.com/photo-1520975958225-36a6613dcd3b?auto=format&fit=crop&w=1200&q=70",
+        full:"https://images.unsplash.com/photo-1520975958225-36a6613dcd3b?auto=format&fit=crop&w=2200&q=80",
+        desc:"A clean portrait set with premium skin tones. Replace with your strongest portraits."
+      },
+      {
+        id:"w6",
+        type:["photo","campaign"],
+        title:"PRODUCT — High-end Detail",
+        meta:"Photo • Campaign • Product (demo)",
+        thumb:"https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=1200&q=70",
+        full:"https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?auto=format&fit=crop&w=2200&q=80",
+        desc:"Product imagery with controlled reflections & contrast. Replace with real client work."
+      },
+      {
+        id:"w7",
+        type:["video","campaign"],
+        title:"BRAND FILM — 60s",
+        meta:"Video • Campaign • Brand film (demo)",
+        thumb:"https://images.unsplash.com/photo-1526481280695-3c687fd643ed?auto=format&fit=crop&w=1200&q=70",
+        youtubeId:"aqz-KE-bpKQ",
+        desc:"A polished brand film for a premium client. Replace with Vimeo/YouTube/MP4."
+      },
+      {
+        id:"w8",
+        type:["photo","bts"],
+        title:"ON SET — Motion Frames",
+        meta:"Photo • BTS • Frames (demo)",
+        thumb:"https://images.unsplash.com/photo-1520975682038-27de6b07ce0b?auto=format&fit=crop&w=1200&q=70",
+        full:"https://images.unsplash.com/photo-1520975682038-27de6b07ce0b?auto=format&fit=crop&w=2200&q=80",
+        desc:"Frame-worthy BTS stills that feel cinematic and useful to production + marketing."
       }
+    ];
+
+    const masonry = document.getElementById("masonry");
+
+    function iconFor(types){
+      if(types.includes("video")) return `<span class="play">▶</span> VIDEO`;
+      return `PHOTO`;
     }
 
-    modal.classList.add("open");
-    modal.setAttribute("aria-hidden", "false");
-  });
+    function render(filter="all"){
+      const items = WORKS.filter(w => {
+        if(filter==="all") return true;
+        return w.type.includes(filter);
+      });
 
-  // Modal close
-  function closeModal(){
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-    modalBody.innerHTML = "";
-  }
-  document.getElementById("closeBtn").addEventListener("click", closeModal);
-  modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
-  window.addEventListener("keydown", (e) => { if(e.key === "Escape") closeModal(); });
+      masonry.innerHTML = items.map(w => `
+        <article class="work" data-id="${w.id}" data-types="${w.type.join(",")}">
+          <div class="media">
+            <img src="${w.thumb}" alt="${escapeHtml(w.title)}" loading="lazy"/>
+          </div>
+          <div class="tag">${iconFor(w.type)}</div>
+          <div class="caption">
+            <div class="cap-left">
+              <b>${escapeHtml(w.title)}</b>
+              <span>${escapeHtml(w.meta)}</span>
+            </div>
+            <div class="cap-right">Open</div>
+          </div>
+        </article>
+      `).join("");
+    }
 
-  function escapeHtml(str){
-    return String(str).replace(/[&<>"']/g, s => ({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-    }[s]));
-  }
-</script>
+    // Modal logic
+    const modal = document.getElementById("modal");
+    const mTitle = document.getElementById("mTitle");
+    const mMeta = document.getElementById("mMeta");
+    const mBody = document.getElementById("mBody");
+    const mDesc = document.getElementById("mDesc");
 
+    function openModal(work){
+      mTitle.textContent = work.title;
+      mMeta.textContent = work.meta;
+      mDesc.textContent = work.desc || "";
+
+      if(work.type.includes("video")){
+        if(work.youtubeId){
+          mBody.innerHTML = `
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/${work.youtubeId}?autoplay=1&mute=0&controls=1&modestbranding=1&rel=0"
+              title="Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+          `;
+        } else if(work.vimeoId){
+          mBody.innerHTML = `
+            <iframe
+              src="https://player.vimeo.com/video/${work.vimeoId}?autoplay=1"
+              title="Vimeo"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen></iframe>
+          `;
+        } else if(work.mp4){
+          mBody.innerHTML = `<video src="${work.mp4}" controls autoplay playsinline></video>`;
+        } else {
+          mBody.innerHTML = `<div style="padding:18px;color:rgba(255,255,255,.7)">No video source set</div>`;
+        }
+      } else {
+        mBody.innerHTML = `<img src="${work.full || work.thumb}" alt="${escapeHtml(work.title)}"/>`;
+      }
+
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden","false");
+    }
+
+    function closeModal(){
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden","true");
+      mBody.innerHTML = "";
+    }
+
+    document.getElementById("close").addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
+    window.addEventListener("keydown", (e) => { if(e.key === "Escape") closeModal(); });
+
+    // Click on work card
+    masonry.addEventListener("click", (e) => {
+      const card = e.target.closest(".work");
+      if(!card) return;
+      const id = card.dataset.id;
+      const work = WORKS.find(w => w.id === id);
+      if(work) openModal(work);
+    });
+
+    // Filter chips
+    const chips = [...document.querySelectorAll(".chip")];
+    chips.forEach(c => c.addEventListener("click", () => {
+      chips.forEach(x => x.classList.remove("active"));
+      c.classList.add("active");
+      render(c.dataset.filter);
+      window.location.hash = "#work";
+    }));
+
+    // Hero showreel button
+    document.getElementById("openShowreel").addEventListener("click", () => {
+      const showreel = WORKS.find(w => w.type.includes("video"));
+      if(showreel) openModal(showreel);
+    });
+
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, s => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[s]));
+    }
+
+    // Initial render
+    render("all");
+  </script>
 </body>
 </html>
